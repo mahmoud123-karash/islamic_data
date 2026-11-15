@@ -82,7 +82,7 @@ class HadithDataService {
   }
 
   /// Load Fabricated / Unauthentic Hadith list.
-  Future<List<FabricatedHadith>> loadFabricatedHadiths({String assetPath = 'hadith/fake_hadiths/fake_hadith.json'}) async {
+  Future<List<FabricatedHadith>> loadFabricatedHadiths({String assetPath = 'hadith/fake_hadith.json'}) async {
     if (_cachedFabricated != null) return _cachedFabricated!;
     final jsonString = await rootBundle.loadString(assetPath);
     final List<dynamic> jsonList = jsonDecode(jsonString);
