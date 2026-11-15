@@ -1,0 +1,55 @@
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+[Dd]esktop.ini
+
+# Editors & IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.sublime-workspace
+*.sublime-project
+
+# Environment & Credentials
+.env
+.env.*
+*.local
+*.pem
+*.key
+*.p12
+*.crt
+*.keystore
+*firebase*.json
+*service-account*.json
+credentials.json
+secrets/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# Dart / Flutter build artifacts (if opened in Flutter tooling)
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+
+# Temporary and Cache Files
+*.tmp
+*.temp
+*.bak
+*.log
