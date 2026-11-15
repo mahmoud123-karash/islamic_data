@@ -20,6 +20,7 @@ A comprehensive, curated, developer-friendly repository of Islamic digital asset
   - [5. Typography & Fonts](#5-typography--fonts)
   - [6. Multimedia & Audio](#6-multimedia--audio)
   - [7. Vector Graphics & Icons](#7-vector-graphics--icons)
+  - [8. APIs & Web Endpoints Directory](#8-apis--web-endpoints-directory)
 - [Integration Examples](#-integration-examples)
   - [Flutter / Dart](#flutter--dart)
   - [Python](#python)
@@ -36,6 +37,7 @@ The **Islamic Data Repository** unifies all foundational Islamic resources into 
 - **Accuracy & Authenticity**: Standard Hafs text, King Fahd Complex alignments, and classical scholarly references.
 - **Cross-Platform Compatibility**: Clean JSON datasets, SQLite databases, and scalable SVG vectors usable across Flutter, Android (Kotlin), iOS (Swift), React Native, Web, Python, and Go.
 - **Backward Compatibility**: Fully preserves legacy paths (`assets/tafaseer/` and `assets/fonts/qcf_tajweed/`) to prevent breaking changes in existing consumer applications.
+- **Complete API Directory**: Full documentation and machine-readable schema for all public Islamic REST APIs, streaming feeds, and CDNs.
 
 ---
 
@@ -47,6 +49,10 @@ islamic_data/
 ├── LICENSE                            # MIT License & attribution details
 ├── CONTRIBUTING.md                     # Contribution guidelines
 ├── .gitignore                         # Git exclusion rules
+│
+├── api/                               # Islamic APIs & Endpoints Catalog
+│   ├── README.md                      # Detailed API documentation, cURL requests & schemas
+│   └── endpoints.json                 # Machine-readable catalog of all services & endpoints
 │
 ├── quran/                             # Core Quranic datasets
 │   ├── quran.json                     # Complete Quran (6,236 Ayahs with Uthmanic, simple, and QCF glyphs)
@@ -121,23 +127,22 @@ islamic_data/
 │       └── play.json                  # Lottie playback animation
 │
 ├── graphics/                          # Optimized SVG vectors
-│   ├── icons/
-│   │   ├── prayer_times/              # fajr, sunrise, dohar, asr, magrab, isha, calendar
-│   │   ├── quran/                     # ayah, book, bookmark, open_quran, page, sajdah, translate
-│   │   ├── dhikr/                     # azkar, counter, rosary
-│   │   ├── islamic/                   # muhammed, names, mosque, kaapa, qibla, compass
-│   │   ├── colored/               # 8 vibrant multi-tone Islamic SVGs
-│   │   └── general/                   # UI actions, sound controls, navigation
-│   └── logos/
-│       └── hidaya_logo.svg            # Islamic brand vector logo
+│   └── icons/
+│       ├── prayer_times/              # fajr, sunrise, dohar, asr, magrab, isha, calendar
+│       ├── quran/                     # ayah, book, bookmark, open_quran, page, sajdah, translate
+│       ├── dhikr/                     # azkar, counter, rosary
+│       ├── islamic/                   # muhammed, names, mosque, kaapa, qibla, compass
+│       ├── colored/                   # 8 vibrant multi-tone Islamic SVGs
+│       └── general/                   # UI actions, sound controls, navigation
 │
 └── examples/                          # Ready-to-run implementation examples
     ├── dart/
     │   ├── quran_service.dart         # Flutter/Dart Quran models and search service
     │   ├── azkar_service.dart         # Azkar category parsing and daily supplication helpers
-    │   └── hadith_service.dart        # Forty Hadith and authenticity checker service
+    │   ├── hadith_service.dart        # Forty Hadith and authenticity checker service
+    │   └── islamic_api_client.dart    # Full API client for AlAdhan, MP3Quran, HadeethEnc, etc.
     └── python/
-        └── explore_islamic_data.py    # Python script demonstrating parsing and querying
+        └── explore_islamic_data.py    # Python script demonstrating parsing, querying & APIs
 ```
 
 ---
@@ -241,6 +246,24 @@ Over 70 optimized SVG vector icons categorised into:
 
 ---
 
+### 8. APIs & Web Endpoints Directory
+
+Complete documentation and machine-readable definitions are available in [`api/README.md`](api/README.md) and [`api/endpoints.json`](api/endpoints.json).
+
+| Service | Category | Provider | Base URL |
+| :--- | :--- | :--- | :--- |
+| **Prayer Times & Hijri Calendar** | Calculation & Dates | AlAdhan | `https://api.aladhan.com/v1` |
+| **Reciters & Chapter Audio** | Reciters Directory | MP3Quran.net | `https://www.mp3quran.net/api/v3` |
+| **Verse & Surah Audio CDN** | Audio Streaming | Islamic Network | `https://cdn.islamic.network` |
+| **Hadith Encyclopedia** | Thematic Hadith & Sharh | HadeethEnc | `https://hadeethenc.com/api/v1` |
+| **Canonical Hadith Books API** | Bukhari, Muslim, etc. | Fawaz Ahmed / jsDelivr | `https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1` |
+| **Asma-ul-Husna (99 Names)** | Divine Names API | IslamicAPI | `https://islamicapi.com/api/v1` |
+| **Hisn al-Muslim Audio** | Supplication MP3s | HisnMuslim.com | `http://www.hisnmuslim.com/audio/ar` |
+| **Live Quran Radios** | Streaming Radio Channels | Data Rosy / Vercel | `https://data-rosy.vercel.app` |
+| **Tafaseer & Fonts CDN** | Cloud Storage & Mirrors | Islamic Data GitHub CDN | `https://mahmoud123-karash.github.io/islamic_data` |
+
+---
+
 ## 💻 Integration Examples
 
 ### Flutter / Dart
@@ -260,19 +283,27 @@ Use the helper services provided in [`examples/dart/`](examples/dart/):
 
 ```dart
 import 'package:your_app/examples/dart/quran_service.dart';
+import 'package:your_app/examples/dart/islamic_api_client.dart';
 
 void main() async {
+  // 1. In-memory offline Quran search
   final quranService = QuranDataService();
-
-  // Load Quran and search by keyword using normalized Imla'i script
   List<Ayah> verses = await quranService.searchVerses("الرحمة");
   print("Found ${verses.length} verses mentioning mercy.");
 
-  // Get all verses for Surah Al-Fatihah
-  List<Ayah> fatihah = await quranService.getVersesBySurah(1);
-  for (var ayah in fatihah) {
-    print("${ayah.ayaNo}: ${ayah.ayaText}");
-  }
+  // 2. Fetch monthly prayer times from API
+  final apiClient = IslamicApiClient();
+  final prayerData = await apiClient.getMonthlyPrayerTimes(
+    latitude: 30.0444,
+    longitude: 31.2357,
+    year: 2026,
+    month: 11,
+  );
+  print("Loaded prayer times for ${prayerData.length} days.");
+
+  // 3. Get direct CDN audio stream for Verse 1 (Al-Fatihah)
+  String audioUrl = apiClient.getVerseAudioUrl(1, reciter: 'ar.alafasy');
+  print("Ayah Audio Stream: $audioUrl");
 }
 ```
 
@@ -300,7 +331,7 @@ for s in surahs[:5]:
 
 This repository adheres to [Semantic Versioning (SemVer)](https://semver.org/):
 - **MAJOR (`vX.0.0`)**: Breaking structure changes, column/key schema renames, or path shifts.
-- **MINOR (`v1.X.0`)**: Adding new translations, tafaseer books, fonts, or icons without changing existing structures.
+- **MINOR (`v1.X.0`)**: Adding new translations, tafaseer books, fonts, APIs, or icons without changing existing structures.
 - **PATCH (`v1.0.X`)**: Corrections to typos in metadata, bug fixes in translation strings, or documentation improvements.
 
 For production applications, it is recommended to pin commits or download assets to local storage/CDN to guarantee offline reliability.
@@ -313,6 +344,7 @@ We welcome community contributions, additional translations, and data quality ve
 1. Submitting new authenticated Hadith or Tafseer datasets.
 2. Reporting text issues or diacritic errors.
 3. Submitting vector icons and design assets.
+4. Adding or updating API endpoints.
 
 ---
 
@@ -326,3 +358,4 @@ We welcome community contributions, additional translations, and data quality ve
   - Tajawal: [SIL Open Font License 1.1](http://scripts.sil.org/OFL) (Bouchra Salhi).
   - QCF Tajweed Fonts: King Fahd Glorious Quran Printing Complex.
 - **Tafaseer & Hadith**: Classical Islamic scholarly heritage in the public domain. Hadith verification references courtesy of Dorar.net.
+- **APIs & Web Services**: Respective providers (AlAdhan, MP3Quran, HadeethEnc, Islamic Network, IslamicAPI, Fawaz Ahmed).

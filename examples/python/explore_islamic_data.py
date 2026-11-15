@@ -61,6 +61,13 @@ def main():
     for r in reciters[:3]:
         print(f"      - {r.get('name')} ({r.get('englishName')})")
 
+    # 7. APIs & Endpoints Directory
+    api_dir = load_json("api/endpoints.json")
+    services = api_dir.get("services", [])
+    print(f"\n[+] Integrated Islamic APIs & Services: {len(services)}")
+    for s in services:
+        print(f"      - {s['name']} ({len(s.get('endpoints', []))} endpoints) -> {s['baseUrl']}")
+
     print("\n" + "=" * 60)
     print("All resources verified successfully!")
     print("=" * 60)

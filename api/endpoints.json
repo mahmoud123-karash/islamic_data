@@ -1,0 +1,388 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Islamic App APIs and Endpoints Directory",
+  "version": "1.0.0",
+  "description": "Standardized catalog of public Islamic REST APIs, CDN endpoints, and audio stream providers.",
+  "services": [
+    {
+      "id": "prayer-times-aladhan",
+      "name": "Aladhan Prayer Times & Calendar API",
+      "category": "Prayer Times & Calendar",
+      "provider": "AlAdhan",
+      "baseUrl": "https://api.aladhan.com/v1",
+      "documentationUrl": "https://aladhan.com/prayer-times-api",
+      "authRequired": false,
+      "endpoints": [
+        {
+          "name": "Monthly Prayer Times Calendar by Coordinates",
+          "method": "GET",
+          "path": "/calendar/{year}/{month}",
+          "description": "Calculates daily prayer timings for an entire Gregorian month based on geographic latitude and longitude.",
+          "params": {
+            "path": {
+              "year": "Four digit year (e.g. 2026)",
+              "month": "Month number 1-12"
+            },
+            "query": {
+              "latitude": "Geographic latitude in decimal degrees (e.g. 30.0444)",
+              "longitude": "Geographic longitude in decimal degrees (e.g. 31.2357)",
+              "method": "Calculation method ID (e.g. 5 for Egyptian General Authority of Survey, 4 for Umm Al-Qura, 3 for Muslim World League)"
+            }
+          },
+          "example": "https://api.aladhan.com/v1/calendar/2026/11?latitude=30.0444&longitude=31.2357&method=5"
+        },
+        {
+          "name": "Monthly Prayer Times by City and Country",
+          "method": "GET",
+          "path": "/calendarByCity/{year}/{month}",
+          "description": "Returns prayer times for an entire month specified by city and country name.",
+          "params": {
+            "path": {
+              "year": "Four digit year",
+              "month": "Month number 1-12"
+            },
+            "query": {
+              "city": "City name (e.g. Cairo, Riyadh, London)",
+              "country": "Country name or ISO code (e.g. Egypt, Saudi Arabia)",
+              "method": "Calculation method ID"
+            }
+          },
+          "example": "https://api.aladhan.com/v1/calendarByCity/2026/11?city=Cairo&country=Egypt&method=5"
+        },
+        {
+          "name": "Single Day Prayer Timings",
+          "method": "GET",
+          "path": "/timings/{timestamp}",
+          "description": "Returns prayer timings for a specific day given a UNIX timestamp and coordinates.",
+          "params": {
+            "path": {
+              "timestamp": "UNIX timestamp (seconds since epoch)"
+            },
+            "query": {
+              "latitude": "Decimal latitude",
+              "longitude": "Decimal longitude",
+              "method": "Calculation method ID"
+            }
+          },
+          "example": "https://api.aladhan.com/v1/timings/1763200800?latitude=30.0444&longitude=31.2357&method=5"
+        },
+        {
+          "name": "Gregorian to Hijri Date Conversion",
+          "method": "GET",
+          "path": "/gToH/{date}",
+          "description": "Converts a Gregorian date (DD-MM-YYYY) into its corresponding Hijri calendar date with Arabic month names.",
+          "params": {
+            "path": {
+              "date": "Date formatted as DD-MM-YYYY (e.g. 15-11-2026)"
+            }
+          },
+          "example": "https://api.aladhan.com/v1/gToH/15-11-2026"
+        }
+      ]
+    },
+    {
+      "id": "reciters-mp3quran",
+      "name": "MP3Quran Reciters & Surah Audio API",
+      "category": "Quran Audio",
+      "provider": "MP3Quran.net",
+      "baseUrl": "https://www.mp3quran.net/api/v3",
+      "documentationUrl": "https://mp3quran.net/api/v3",
+      "authRequired": false,
+      "endpoints": [
+        {
+          "name": "List All Reciters",
+          "method": "GET",
+          "path": "/reciters",
+          "description": "Fetches all Quran reciters with their available Riwayahs, audio servers, and available Surahs.",
+          "params": {
+            "query": {
+              "language": "ISO language code: ar or en (defaults to ar)"
+            }
+          },
+          "example": "https://www.mp3quran.net/api/v3/reciters?language=ar"
+        },
+        {
+          "name": "Reciter Chapter Recitations",
+          "method": "GET",
+          "path": "/chapter_recitations/{reciterId}",
+          "description": "Fetches audio streaming URLs and chapter lists for a specific reciter ID.",
+          "params": {
+            "path": {
+              "reciterId": "Identifier ID of the reciter"
+            },
+            "query": {
+              "language": "ISO language code: ar or en"
+            }
+          },
+          "example": "https://www.mp3quran.net/api/v3/chapter_recitations/54?language=ar"
+        }
+      ]
+    },
+    {
+      "id": "quran-audio-cdn-islamic-network",
+      "name": "Islamic Network Quran Audio CDN",
+      "category": "Quran Audio CDN",
+      "provider": "Islamic Network",
+      "baseUrl": "https://cdn.islamic.network",
+      "documentationUrl": "https://alquran.cloud/api",
+      "authRequired": false,
+      "endpoints": [
+        {
+          "name": "Verse-by-Verse Audio Stream",
+          "method": "GET",
+          "path": "/quran/audio/{bitrate}/{reciterIdentifier}/{verseNumber}.mp3",
+          "description": "Direct MP3 stream for an individual verse (numbered 1 to 6236 across the whole Quran).",
+          "params": {
+            "path": {
+              "bitrate": "Audio quality bitrate: 64 or 128",
+              "reciterIdentifier": "Reciter identifier (e.g. ar.alafasy, ar.abdulbasitmurattal, ar.minshawi)",
+              "verseNumber": "Global verse index 1 through 6236"
+            }
+          },
+          "example": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/1.mp3"
+        },
+        {
+          "name": "Surah-by-Surah Audio Stream",
+          "method": "GET",
+          "path": "/quran/audio-surah/{bitrate}/{reciterIdentifier}/{surahNumber}.mp3",
+          "description": "Direct MP3 stream for a complete Surah (1 to 114).",
+          "params": {
+            "path": {
+              "bitrate": "Audio quality bitrate: 64 or 128",
+              "reciterIdentifier": "Reciter identifier (e.g. ar.alafasy)",
+              "surahNumber": "Surah number 1 through 114"
+            }
+          },
+          "example": "https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/1.mp3"
+        }
+      ]
+    },
+    {
+      "id": "hadith-encyclopedia-hadeethenc",
+      "name": "Hadeeth Encyclopedia API",
+      "category": "Hadith",
+      "provider": "HadeethEnc",
+      "baseUrl": "https://hadeethenc.com/api/v1",
+      "documentationUrl": "https://hadeethenc.com/en/api/docs",
+      "authRequired": false,
+      "endpoints": [
+        {
+          "name": "List Hadith Categories",
+          "method": "GET",
+          "path": "/categories/list/",
+          "description": "Returns thematic categories of authentic Prophetic Hadiths with child counts.",
+          "params": {
+            "query": {
+              "language": "ISO language code (e.g. ar, en, fr, ur, id, tr)"
+            }
+          },
+          "example": "https://hadeethenc.com/api/v1/categories/list/?language=ar"
+        },
+        {
+          "name": "List Hadiths in Category",
+          "method": "GET",
+          "path": "/hadeeths/list/",
+          "description": "Fetches a paginated list of Hadiths belonging to a specific thematic category.",
+          "params": {
+            "query": {
+              "language": "Language code (e.g. ar)",
+              "category_id": "Category ID",
+              "page": "Page number (defaults to 1)",
+              "per_page": "Items per page (e.g. 20, 50, 100)"
+            }
+          },
+          "example": "https://hadeethenc.com/api/v1/hadeeths/list/?language=ar&category_id=1&page=1&per_page=20"
+        },
+        {
+          "name": "Single Hadith Details & Sharh",
+          "method": "GET",
+          "path": "/hadeeths/one/",
+          "description": "Fetches complete Hadith text, translation, isnad, narrator, explanation (Sharh), and scholarly references.",
+          "params": {
+            "query": {
+              "language": "Language code (e.g. ar)",
+              "id": "Unique Hadith ID"
+            }
+          },
+          "example": "https://hadeethenc.com/api/v1/hadeeths/one/?language=ar&id=2942"
+        }
+      ]
+    },
+    {
+      "id": "hadith-books-fawazahmed0",
+      "name": "Fawaz Ahmed Hadith Database API",
+      "category": "Hadith Books Database",
+      "provider": "jsDelivr / GitHub",
+      "baseUrl": "https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1",
+      "documentationUrl": "https://github.com/fawazahmed0/hadith-api",
+      "authRequired": false,
+      "endpoints": [
+        {
+          "name": "Available Hadith Editions Manifest",
+          "method": "GET",
+          "path": "/editions.min.json",
+          "description": "Manifest listing all canonical Hadith books available in Arabic, English, and other languages.",
+          "example": "https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions.min.json"
+        },
+        {
+          "name": "Complete Book JSON: Sahih Al-Bukhari",
+          "method": "GET",
+          "path": "/editions/ara-bukhari.min.json",
+          "description": "Complete collection of Sahih Al-Bukhari with section metadata and hadith numbers.",
+          "example": "https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/ara-bukhari.min.json"
+        },
+        {
+          "name": "Complete Book JSON: Sahih Muslim",
+          "method": "GET",
+          "path": "/editions/ara-muslim.min.json",
+          "description": "Complete collection of Sahih Muslim.",
+          "example": "https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/ara-muslim.min.json"
+        },
+        {
+          "name": "Complete Book JSON: Sunan Abi Dawud",
+          "method": "GET",
+          "path": "/editions/ara-abudawud.min.json",
+          "description": "Complete collection of Sunan Abi Dawud.",
+          "example": "https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/ara-abudawud.min.json"
+        },
+        {
+          "name": "Complete Book JSON: Jami at-Tirmidhi",
+          "method": "GET",
+          "path": "/editions/ara-tirmidhi.min.json",
+          "description": "Complete collection of Jami at-Tirmidhi.",
+          "example": "https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/ara-tirmidhi.min.json"
+        },
+        {
+          "name": "Complete Book JSON: Sunan an-Nasa'i",
+          "method": "GET",
+          "path": "/editions/ara-nasai.min.json",
+          "description": "Complete collection of Sunan an-Nasa'i.",
+          "example": "https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/ara-nasai.min.json"
+        },
+        {
+          "name": "Complete Book JSON: Sunan Ibn Majah",
+          "method": "GET",
+          "path": "/editions/ara-ibnmajah.min.json",
+          "description": "Complete collection of Sunan Ibn Majah.",
+          "example": "https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/ara-ibnmajah.min.json"
+        },
+        {
+          "name": "Complete Book JSON: Muwatta Malik",
+          "method": "GET",
+          "path": "/editions/ara-malik.min.json",
+          "description": "Complete collection of Muwatta Imam Malik.",
+          "example": "https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/ara-malik.min.json"
+        },
+        {
+          "name": "Complete Book JSON: Forty Hadith Nawawi",
+          "method": "GET",
+          "path": "/editions/ara-nawawi.min.json",
+          "description": "Complete 40 Hadith of Imam An-Nawawi.",
+          "example": "https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/ara-nawawi.min.json"
+        }
+      ]
+    },
+    {
+      "id": "asma-ul-husna-islamicapi",
+      "name": "Asma-ul-Husna (99 Names of Allah) API",
+      "category": "Divine Names",
+      "provider": "IslamicAPI",
+      "baseUrl": "https://islamicapi.com/api/v1",
+      "documentationUrl": "https://islamicapi.com",
+      "authRequired": true,
+      "authType": "apiKey (query param: api_key)",
+      "endpoints": [
+        {
+          "name": "Get 99 Names of Allah",
+          "method": "GET",
+          "path": "/asma-ul-husna/",
+          "description": "Returns the 99 Beautiful Names of Allah with Arabic calligraphy, English transliteration, English meanings, and Quranic references.",
+          "params": {
+            "query": {
+              "language": "Language code (e.g. ar or en)",
+              "api_key": "Developer API Key from islamicapi.com"
+            }
+          },
+          "example": "https://islamicapi.com/api/v1/asma-ul-husna/?language=ar&api_key=YOUR_API_KEY"
+        }
+      ]
+    },
+    {
+      "id": "azkar-audio-hisnmuslim",
+      "name": "Hisn al-Muslim Audio Streaming",
+      "category": "Azkar Audio",
+      "provider": "HisnMuslim.com",
+      "baseUrl": "http://www.hisnmuslim.com/audio/ar",
+      "documentationUrl": "http://www.hisnmuslim.com",
+      "authRequired": false,
+      "endpoints": [
+        {
+          "name": "Azkar Chapter Audio MP3",
+          "method": "GET",
+          "path": "/ar_7esn_AlMoslem_by_Doors_{doorNumber}.mp3",
+          "description": "Audio recitation MP3 of Azkar chapters corresponding to door/category numbers in Hisn al-Muslim.",
+          "params": {
+            "path": {
+              "doorNumber": "Three digit door number padded with zeros (e.g. 001 for morning/evening, 027, etc.)"
+            }
+          },
+          "example": "http://www.hisnmuslim.com/audio/ar/ar_7esn_AlMoslem_by_Doors_001.mp3"
+        }
+      ]
+    },
+    {
+      "id": "live-radio-streams",
+      "name": "Islamic Radios Online Streaming",
+      "category": "Live Audio Streams",
+      "provider": "Data Rosy / Islamic Radios",
+      "baseUrl": "https://data-rosy.vercel.app",
+      "authRequired": false,
+      "endpoints": [
+        {
+          "name": "Live Quran Radio Stations Directory",
+          "method": "GET",
+          "path": "/radio.json",
+          "description": "Curated list of 24/7 online Quran radio streams across various reciters and international Islamic stations.",
+          "example": "https://data-rosy.vercel.app/radio.json"
+        }
+      ]
+    },
+    {
+      "id": "islamic-data-cdn",
+      "name": "Islamic Data GitHub Pages & Raw CDN",
+      "category": "Fonts & Tafaseer CDN",
+      "provider": "Islamic Data Repository",
+      "baseUrl": "https://mahmoud123-karash.github.io/islamic_data",
+      "mirrors": [
+        "https://raw.githubusercontent.com/mahmoud123-karash/islamic_data/main"
+      ],
+      "authRequired": false,
+      "endpoints": [
+        {
+          "name": "Tafseer Book JSON Download",
+          "method": "GET",
+          "path": "/assets/tafaseer/{bookFileName}",
+          "description": "Direct download for any of the 10 complete Tafseer books (ar_muyassar.json, sa3dy.json, katheer.json, tabary.json, etc.).",
+          "params": {
+            "path": {
+              "bookFileName": "Name of the tafseer file: ar_muyassar.json, sa3dy.json, katheer.json, baghawy.json, qortoby.json, tabary.json, tanweer.json, waseet.json, e3rab.json, ar_ma3any.json"
+            }
+          },
+          "example": "https://raw.githubusercontent.com/mahmoud123-karash/islamic_data/main/assets/tafaseer/ar_muyassar.json"
+        },
+        {
+          "name": "QCF Tajweed Compressed Font Download",
+          "method": "GET",
+          "path": "/assets/fonts/qcf_tajweed/QCF4{page:03d}_COLOR-Regular.ttf.gz",
+          "description": "Page-by-page compressed King Fahd Complex Tajweed colored font for pages 001 through 604.",
+          "params": {
+            "path": {
+              "page": "Three digit page number (001 to 604)"
+            }
+          },
+          "example": "https://raw.githubusercontent.com/mahmoud123-karash/islamic_data/main/assets/fonts/qcf_tajweed/QCF4001_COLOR-Regular.ttf.gz"
+        }
+      ]
+    }
+  ]
+}
