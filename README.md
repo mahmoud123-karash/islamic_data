@@ -3,6 +3,7 @@
 A clean, lightweight, and structured collection of open Islamic datasets, resources, APIs, and assets for mobile and web developers.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Pub.dev: quran_data_kit](https://img.shields.io/pub/v/quran_data_kit?color=blue&label=quran_data_kit&logo=dart)](https://pub.dev/packages/quran_data_kit)
 [![Format: JSON / SQLite / TTF / SVG](https://img.shields.io/badge/Format-JSON%20%7C%20SQLite%20%7C%20TTF%20%7C%20SVG-blue.svg)](#-folder-structure)
 [![Status: Production Ready](https://img.shields.io/badge/Status-Active-brightgreen.svg)](#-getting-started)
 
@@ -10,6 +11,7 @@ A clean, lightweight, and structured collection of open Islamic datasets, resour
 
 ## 📖 What's Inside?
 
+- **Flutter Package (`quran_data_kit`)**: Ready-to-use Flutter package on [pub.dev](https://pub.dev/packages/quran_data_kit) providing an authentic Mushaf page view, King Fahd QCF Tajweed font rendering & caching, 16 translations, audio streams, and Quran metadata.
 - **Quran**: Complete Arabic text (6,236 Ayahs), 114 Surahs metadata, 30 Juzs, 240 Quarters, 604 pages layout, and 16 translations in clean JSON format.
 - **Tafaseer**: 10 classical Tafseer books in unified JSON format (Al-Muyassar, Ibn Katheer, Al-Sa'dy, Al-Tabari, Al-Qurtubi, Al-Baghawi, etc.).
 - **Hadith**: The 40 Hadiths of Imam An-Nawawi (with explanations) and 20 verified fabricated hadith alerts (JSON, CSV, SQLite).
@@ -128,7 +130,9 @@ You can load resources directly via GitHub Raw or GitHub Pages CDN:
 
 ### Flutter / Dart
 
-Include the desired folders in your `pubspec.yaml`:
+> 💡 **Flutter Package**: If you need a plug-and-play UI with authentic Mushaf page views (`QuranPageView`), King Fahd QCF Tajweed font rendering & caching, audio URLs, and translations, check out [**`quran_data_kit`**](https://pub.dev/packages/quran_data_kit) on pub.dev.
+
+To load the raw datasets directly in your app, include the desired folders in your `pubspec.yaml`:
 
 ```yaml
 flutter:
