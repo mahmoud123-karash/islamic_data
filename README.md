@@ -1,4 +1,4 @@
-# 🕌 Islamic Data (`islamic_data`)
+# 🕌 Islamic Data
 
 A clean, lightweight, and structured collection of open Islamic datasets, resources, APIs, and assets for mobile and web developers.
 
@@ -12,13 +12,13 @@ A clean, lightweight, and structured collection of open Islamic datasets, resour
 ## 📖 What's Inside?
 
 - **Flutter Package (`quran_data_kit`)**: Ready-to-use Flutter package on [pub.dev](https://pub.dev/packages/quran_data_kit) providing an authentic Mushaf page view, King Fahd QCF Tajweed font rendering & caching, 16 translations, audio streams, and Quran metadata.
-- **Quran**: Complete Arabic text (6,236 Ayahs), 114 Surahs metadata, 30 Juzs, 240 Quarters, 604 pages layout, and 16 translations in clean JSON format.
+- **Quran**: Complete Arabic text (6,236 Ayahs), 114 Surahs metadata, 114 individual Surah JSON files, 30 Juzs, 240 Quarters, 604 pages layout, 16 translations, and 604 Madani Mushaf page image scans across 4 resolutions & styles.
 - **Tafaseer**: 10 classical Tafseer books in unified JSON format (Al-Muyassar, Ibn Katheer, Al-Sa'dy, Al-Tabari, Al-Qurtubi, Al-Baghawi, etc.).
-- **Hadith**: The 40 Hadiths of Imam An-Nawawi (with explanations) and 20 verified fabricated hadith alerts (JSON, CSV, SQLite).
+- **Hadith**: Complete 9 Major Hadith Collections (_Kutub al-Tis'ah_: Bukhari, Muslim, Abu Dawood, Tirmidhi, Nasa'i, Ibn Majah, Malik, Ahmad, Darimi), the 40 Hadiths of Imam An-Nawawi (with explanations), and 20 verified fabricated hadith alerts (JSON, CSV, SQLite).
 - **Azkar & Duas**: 133 Hisn al-Muslim supplication categories and comprehensive Al-Ruqyah Al-Shar'iyyah.
-- **Typography & Fonts**: 604 King Fahd Complex Tajweed page fonts (QCF v4), plus Cairo, Amiri, Tajawal, and Hafs fonts.
+- **Typography & Fonts**: 604 King Fahd Complex Tajweed page fonts (QCF v4), plus Cairo, Amiri, Tajawal, Diodrum Arabic (4 weights), and Hafs & Uthmanic Hafs (Regular & Bold) fonts.
 - **Icons & Graphics**: Clean, categorized SVG vectors for prayer times, Quran reading, Tasbeeh/dhikr, and Islamic symbols.
-- **APIs Directory**: Ready-to-use directory and Dart client for AlAdhan, MP3Quran, HadeethEnc, and Islamic Network CDN.
+- **APIs Directory**: Ready-to-use reference catalog and schema for AlAdhan, MP3Quran, HadeethEnc, and Islamic Network CDN.
 
 ---
 
@@ -26,24 +26,34 @@ A clean, lightweight, and structured collection of open Islamic datasets, resour
 
 ```text
 islamic_data/
-├── quran/                             # Quranic datasets
+├── quran/                             # Quranic datasets & imagery
 │   ├── quran.json                     # Full Quran (6,236 Ayahs with Uthmanic & search text)
 │   ├── surahs.json                    # 114 Surahs with revelation details & virtues
 │   ├── juzs.json                      # 30 Juz divisions and verse coordinates
 │   ├── quarters.json                  # 240 Rub el-Hizb quarters
 │   ├── pages.json                     # 604 Madani Mushaf page layout definitions
 │   ├── sajdah.json                    # 15 Tilawah prostration marks
-│   └── translations/                  # 16 language translations (JSON)
-│       ├── bengali.json               ├── malayalam.json
-│       ├── chinese.json               ├── persian.json
-│       ├── dutch.json                 ├── portuguese.json
-│       ├── english.json (Saheeh)      ├── russian.json
-│       ├── english_clear_quran.json   ├── spanish.json
-│       ├── french.json                ├── swedish.json
-│       ├── indonesian.json            ├── turkish.json
-│       └── italian.json               └── urdu.json
+│   ├── surahs/                        # 114 individual Surah JSON files (surah_1.json to surah_114.json)
+│   ├── translations/                  # 16 language translations (JSON)
+│   │   ├── bengali.json               ├── malayalam.json
+│   │   ├── chinese.json               ├── persian.json
+│   │   ├── dutch.json                 ├── portuguese.json
+│   │   ├── english.json (Saheeh)      ├── russian.json
+│   │   ├── english_clear_quran.json   ├── spanish.json
+│   │   ├── french.json                ├── swedish.json
+│   │   ├── indonesian.json            ├── turkish.json
+│   │   └── italian.json               └── urdu.json
+│   └── images/                        # 604 Madani Mushaf page scans (4 styles/resolutions)
+│       ├── compact/                   # 604 compact pages (456x672, 1.png - 604.png)
+│       ├── colored/                   # 622 full-color pages with borders & Khatm (562x882)
+│       ├── high_res/                  # 604 HD pages (1024x1656, 1.png - 604.png)
+│       └── standard/                  # 604 medium pages with padded names (512x828, page001.png - page604.png)
 │
-├── hadith/                            # Prophetic traditions
+├── hadith/                            # Prophetic traditions & Hadith books
+│   ├── books/                         # Complete 9 Major Hadith Books (Kutub al-Tis'ah)
+│   │   ├── bukhari.json               ├── muslim.json            ├── abi_daud.json
+│   │   ├── trmizi.json                ├── nasai.json             ├── ibn_maja.json
+│   │   ├── malik.json                 ├── ahmed.json             └── darimi.json
 │   ├── nawawi_forty.json              # 42 Nawawi Hadiths with full Sharh & audio/video links
 │   ├── fake_hadith.json               # 20 fabricated hadiths with Dorar.net verdicts
 │   ├── fake_hadith.csv                # Tabular spreadsheet format
@@ -64,7 +74,8 @@ islamic_data/
 │       ├── cairo/                     # Google Cairo family (8 weights)
 │       ├── amiri/                     # Amiri Regular Naskh
 │       ├── tajawal/                   # Tajawal Regular UI font
-│       ├── hafs/                      # Hafs V20 and HafsSmart 08
+│       ├── diodrum/                   # Diodrum Arabic (Regular, Medium, Semibold, Bold)
+│       ├── hafs/                      # Hafs V20, HafsSmart 08, UthmanicHafs (Regular & Bold)
 │       └── calligraphy/               # arsura.ttf (Surah titles) & QCF4_BSML.ttf (Basmallah)
 │
 ├── multimedia/                        # Audio & reciter visuals
@@ -86,13 +97,9 @@ islamic_data/
 │       ├── colored/                   # 8 Vibrant multi-tone Islamic SVGs
 │       └── ui/                        # Clean UI icons (Search, settings, sound, copy, share)
 │
-├── api/                               # Islamic APIs & Endpoints Directory
-│   ├── README.md                      # Complete API reference, cURL commands & params
-│   └── endpoints.json                 # Machine-readable schema of all 9 services
-│
-└── examples/                          # Ready-to-run developer code
-    ├── dart/                          # Flutter/Dart services (Quran, Azkar, Hadith, API client)
-    └── python/                        # Python quick exploration script
+└── api/                               # Islamic APIs & Endpoints Directory
+    ├── README.md                      # Complete API reference, cURL commands & params
+    └── endpoints.json                 # Machine-readable schema of all 9 services
 ```
 
 ---
@@ -109,6 +116,16 @@ git clone https://github.com/mahmoud123-karash/islamic_data.git
 
 You can load resources directly via GitHub Raw or GitHub Pages CDN:
 
+- **Hadith Books (The 9 Major Collections)**:
+  ```text
+  https://raw.githubusercontent.com/mahmoud123-karash/islamic_data/main/hadith/books/bukhari.json
+  https://raw.githubusercontent.com/mahmoud123-karash/islamic_data/main/hadith/books/muslim.json
+  ```
+- **Quran Surahs & Mushaf Page Scans**:
+  ```text
+  https://raw.githubusercontent.com/mahmoud123-karash/islamic_data/main/quran/surahs/surah_1.json
+  https://raw.githubusercontent.com/mahmoud123-karash/islamic_data/main/quran/images/high_res/1.png
+  ```
 - **Tafseer Books**:
   ```text
   https://raw.githubusercontent.com/mahmoud123-karash/islamic_data/main/assets/tafaseer/ar_muyassar.json
@@ -126,86 +143,31 @@ You can load resources directly via GitHub Raw or GitHub Pages CDN:
 
 ---
 
-## 💡 Quick Integration Examples
-
-### Flutter / Dart
-
-> 💡 **Flutter Package**: If you need a plug-and-play UI with authentic Mushaf page views (`QuranPageView`), King Fahd QCF Tajweed font rendering & caching, audio URLs, and translations, check out [**`quran_data_kit`**](https://pub.dev/packages/quran_data_kit) on pub.dev.
-
-To load the raw datasets directly in your app, include the desired folders in your `pubspec.yaml`:
-
-```yaml
-flutter:
-  assets:
-    - quran/
-    - azkar/
-    - hadith/
-    - assets/tafaseer/
-```
-
-Use the pre-built helpers in [`examples/dart/`](examples/dart/):
-
-```dart
-import 'package:your_app/examples/dart/quran_service.dart';
-import 'package:your_app/examples/dart/islamic_api_client.dart';
-
-void main() async {
-  // 1. Search Quran verses using simplified search text
-  final quranService = QuranDataService();
-  final results = await quranService.searchVerses("الصبر");
-  print("Found ${results.length} verses.");
-
-  // 2. Fetch monthly prayer times from AlAdhan API
-  final apiClient = IslamicApiClient();
-  final prayerTimes = await apiClient.getMonthlyPrayerTimes(
-    latitude: 30.0444,
-    longitude: 31.2357,
-    year: 2026,
-    month: 11,
-  );
-  print("Loaded ${prayerTimes.length} days of prayer times.");
-}
-```
-
-### Python
-
-```python
-import json
-
-# Load Surahs metadata
-with open("quran/surahs.json", "r", encoding="utf-8") as f:
-    surahs = json.load(f)
-
-for s in surahs[:3]:
-    print(f"Surah {s['id']}: {s['arabic']} ({s['name']}) - {s['aya']} verses")
-```
-
----
-
 ## 🌐 Integrated Islamic APIs
 
 A summary of public Islamic APIs cataloged in [`api/endpoints.json`](api/endpoints.json) and documented in [`api/README.md`](api/README.md):
 
-| Service | Purpose | Provider | Base URL |
-| :--- | :--- | :--- | :--- |
-| **Prayer Times** | Calculations & Monthly Calendar | AlAdhan | `https://api.aladhan.com/v1` |
-| **Reciters** | Reciters list & Surah recitations | MP3Quran | `https://www.mp3quran.net/api/v3` |
-| **Audio CDN** | Verse-by-verse & Surah MP3 streams | Islamic Network | `https://cdn.islamic.network` |
-| **Hadith Encyclopedia** | Thematic hadith categories & Sharh | HadeethEnc | `https://hadeethenc.com/api/v1` |
-| **Hadith Books** | Bukhari, Muslim, Abu Dawud, etc. | Fawaz Ahmed CDN | `https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1` |
-| **99 Names** | Asma-ul-Husna with calligraphy | IslamicAPI | `https://islamicapi.com/api/v1` |
-| **Azkar Audio** | Audio streams for Hisn al-Muslim | HisnMuslim | `http://www.hisnmuslim.com/audio/ar` |
-| **Live Radios** | 24/7 Quran streaming stations | Data Rosy | `https://data-rosy.vercel.app` |
+| Service                 | Purpose                            | Provider        | Base URL                                               |
+| :---------------------- | :--------------------------------- | :-------------- | :----------------------------------------------------- |
+| **Prayer Times**        | Calculations & Monthly Calendar    | AlAdhan         | `https://api.aladhan.com/v1`                           |
+| **Reciters**            | Reciters list & Surah recitations  | MP3Quran        | `https://www.mp3quran.net/api/v3`                      |
+| **Audio CDN**           | Verse-by-verse & Surah MP3 streams | Islamic Network | `https://cdn.islamic.network`                          |
+| **Hadith Encyclopedia** | Thematic hadith categories & Sharh | HadeethEnc      | `https://hadeethenc.com/api/v1`                        |
+| **Hadith Books**        | Bukhari, Muslim, Abu Dawud, etc.   | Fawaz Ahmed CDN | `https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1` |
+| **99 Names**            | Asma-ul-Husna with calligraphy     | IslamicAPI      | `https://islamicapi.com/api/v1`                        |
+| **Azkar Audio**         | Audio streams for Hisn al-Muslim   | HisnMuslim      | `http://www.hisnmuslim.com/audio/ar`                   |
+| **Live Radios**         | 24/7 Quran streaming stations      | Data Rosy       | `https://data-rosy.vercel.app`                         |
 
 ---
 
 ## 📄 License & Attribution
 
-- **Code & Schemas**: Distributed under the permissive [MIT License](LICENSE).
+- **Datasets & Schemas**: Distributed under the permissive [MIT License](LICENSE).
 - **Holy Quran Text**: In the public domain. Digital alignments from Tanzil Project & King Fahd Complex.
 - **Fonts**:
   - Amiri: [SIL Open Font License 1.1](http://scripts.sil.org/OFL) (Khaled Hosny).
   - Cairo: [SIL Open Font License 1.1](http://scripts.sil.org/OFL) (Mohamed Gaber).
   - Tajawal: [SIL Open Font License 1.1](http://scripts.sil.org/OFL) (Bouchra Salhi).
+  - Diodrum Arabic & Uthmanic Hafs (Regular & Bold).
   - QCF Tajweed Fonts: King Fahd Glorious Quran Printing Complex.
-- **Tafaseer & Hadith**: Classical Islamic scholarly heritage in the public domain. Hadith verification references courtesy of Dorar.net.
+- **Tafaseer & Hadith**: Classical Islamic scholarly heritage in the public domain. Nine Hadith books (_Kutub al-Tis'ah_) and Hadith verification references courtesy of Dorar.net.
